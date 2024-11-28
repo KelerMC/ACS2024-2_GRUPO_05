@@ -15,3 +15,13 @@ def display_equation(expr, title=""):
 s = sp.Symbol('s')  # Variable de Laplace
 M, m, l, g = sp.symbols('M m l g')  # Parámetros del sistema
 X, U, Theta = sp.symbols('X U Theta')  # Variables en dominio de Laplace
+
+# Ecuación 1 (del carro) en dominio de Laplace:
+# (M+m)s²X(s) - mls²Theta(s) = U(s)
+eq1 = (M + m)*s**2*X - m*l*s**2*Theta - U
+
+# Ecuación 1 (del carro) en dominio de Laplace:
+# (M+m)s²X(s) - mls²Theta(s) = U(s)
+eq1 = (M + m)*s**2*X - m*l*s**2*Theta - U
+print("Ecuación 1 (carro):")
+display_equation(sp.Eq(eq1, 0))
