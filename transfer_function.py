@@ -10,3 +10,8 @@ def display_equation(expr, title=""):
     if title:
         plt.title(title)
     plt.show()
+
+# Definir variables simbólicas
+s = sp.Symbol('s')  # Variable de Laplace
+M, m, l, g = sp.symbols('M m l g')  # Parámetros del sistema
+X, U, Theta = sp.symbols('X U Theta')  # Variables en dominio de Laplace
