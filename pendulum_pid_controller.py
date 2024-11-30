@@ -39,3 +39,32 @@ class PendulumSystem:
         angles = np.degrees(solution[:, 0])
 
         return t, angles
+
+def plot_responses(system, time_sim, initial_angle, param_name, param_values, base_kp=30, base_ki=5.52, base_kd=3.66):
+    plt.figure(figsize=(10, 6))
+
+    for value in param_values:
+        kp, ki, kd = base_kp, base_ki, base_kd
+
+        if param_name == 'kp':
+            kp = value
+        elif param_name == 'ki':
+            ki = value
+        else:
+            kd = value
+
+        t, angles = system.simulate(time_sim, np.radians(initial_angle), kp, ki, kd)
+        plt.plot(t, angles, label=f'{param_name}={value}')
+
+    plt.title(f'Ángulo del péndulo vs tiempo (variando {param_name})')
+    plt.xlabel('Tiempo (s)')
+    plt.ylabel('Ángulo (º)')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+def main():
+    # Inicialización
+    system = PendulumSystem()
+    initial_angle = 10  # grados
+    time_sim = 5       # segundos
