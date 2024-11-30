@@ -68,3 +68,35 @@ def main():
     system = PendulumSystem()
     initial_angle = 10  # grados
     time_sim = 5       # segundos
+
+   # Valores para sintonización
+    kp_values = np.arange(30, 110, 10)
+    ki_values = np.arange(0, 16, 2)
+    kd_values = np.arange(0, 16, 2)
+
+    # Graficar variando KP
+    print("Sintonizando KP...")
+    plot_responses(system, time_sim, initial_angle, 'kp', kp_values)
+
+    # Graficar variando KI
+    print("Sintonizando KI...")
+    plot_responses(system, time_sim, initial_angle, 'ki', ki_values, base_kp=40)
+
+    # Graficar variando KD
+    print("Sintonizando KD...")
+    plot_responses(system, time_sim, initial_angle, 'kd', kd_values, base_kp=40, base_ki=0)
+
+    # Resultados finales con valores optimizados
+    print("Graficando resultados finales...")
+    t, angles = system.simulate(time_sim, np.radians(initial_angle), kp=40, ki=0, kd=4)
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(t, angles)
+    plt.title('Respuesta del sistema con Kp=40 y Kd=4')
+    plt.xlabel('Tiempo (s)')
+    plt.ylabel('Ángulo (º)')
+    plt.grid(True)
+    plt.show()
+
+if __name__ == "__main__":
+    main()
