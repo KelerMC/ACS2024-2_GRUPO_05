@@ -14,8 +14,24 @@ class CarControllerPID:
         self.KP_v = []
         self.KI_v = []
         self.KD_v = []
-    
-
+ # Definir variables simbólicas
+        self.s = sp.Symbol('s')  # Variable de Laplace
+        self.X, self.U = sp.symbols('X U')
+        
+        # Ecuación 1 (del carro) en dominio de Laplace
+        self.eq1 = (self.M + self.m)*self.s**2*self.X - self.m*self.l*self.s**2*self.X - self.U
+        
+        # Función de transferencia del carro: X(s)/U(s)
+        self.transfer_function = sp.solve(self.eq1, self.X)[0]/self.U
+        self.transfer_function_simplified = sp.simplify(self.transfer_function)
+        
+        # Convertir la función de transferencia a una forma usable por la librería control
+        self.num, self.den = sp.fraction(self.transfer_function_simplified)
+        self.num = np.array([float(coef) for coef in self.num.as_coefficients_dict().values()])
+        self.den = np.array([float(coef) for coef in self.den.as_coefficients_dict().values()])
+        
+        # Crear la función de transferencia en Python usando control
+        self.system = ctrl.TransferFunction(self.num, self.den)
 def main():
     angulo_inicial_grados = 10
     tiempo_sim = 20
