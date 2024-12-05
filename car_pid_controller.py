@@ -47,6 +47,18 @@ def simulate(self, KP, KI, KD):
         
         return time, yout
     
+def find_valid_combinations(self):
+        
+        # Busca todas las combinaciones válidas de KP, KI y KD.
+        for KP in range(-5, 6):
+            for KI in range(-5, 6):
+                for KD in range(-5, 6):
+                    time, yout = self.simulate(KP, KI, KD)
+                    iter_error = self.evaluate_performance(yout, time)
+                    if iter_error < 0.05:
+                        self.KP_v.append(KP)
+                        self.KI_v.append(KI)
+                        self.KD_v.append(KD)    
 def main():
     angulo_inicial_grados = 10
     tiempo_sim = 20
