@@ -74,12 +74,24 @@ def plot_filtered_combinations(self):
             time, yout = self.simulate(KP, KI, KD)
             self.plot_results(time, yout, KP, KI, KD)
             
+def plot_results(self, time, yout, KP, KI, KD):
+        
+# Genera gráficos para cada combinación válida.
+        plt.figure()
+        plt.plot(time, yout, label="Respuesta del Sistema")
+        plt.title(f"Respuesta del Sistema (KP={KP}, KI={KI}, KD={KD})")
+        plt.xlabel("Tiempo (s)")
+        plt.ylabel("Posición del Carro (m)")
+        plt.legend()
+        plt.show()
+
 def main():
     angulo_inicial_grados = 10
     tiempo_sim = 20
     M, m, l, g = 1.0, 0.1, 0.5, 9.81  # Parámetros del sistema del carro
-    
     car_controller_pid = CarControllerPID(tiempo_sim, angulo_inicial_grados, M, m, l, g)
+    car_controller_pid.find_valid_combinations()
+    car_controller_pid.plot_filtered_combinations() 
     
 if __name__ == "__main__":
     main()
