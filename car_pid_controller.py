@@ -58,7 +58,22 @@ def find_valid_combinations(self):
                     if iter_error < 0.05:
                         self.KP_v.append(KP)
                         self.KI_v.append(KI)
-                        self.KD_v.append(KD)    
+                        self.KD_v.append(KD)
+                            
+def evaluate_performance(self, yout, time):
+        
+        # Evalúa el desempeño del sistema, devolviendo el error iterativo.
+        final_value = yout[-1]
+        iter_error = abs(final_value - 1)  # Error con respecto al valor final esperado (1 para entrada escalón)
+        return iter_error
+
+def plot_filtered_combinations(self):
+
+    # Grafica las combinaciones filtradas.
+     for KP, KI, KD in zip(self.KP_v, self.KI_v, self.KD_v):
+            time, yout = self.simulate(KP, KI, KD)
+            self.plot_results(time, yout, KP, KI, KD)
+            
 def main():
     angulo_inicial_grados = 10
     tiempo_sim = 20
