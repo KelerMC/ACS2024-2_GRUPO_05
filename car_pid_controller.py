@@ -32,6 +32,21 @@ class CarControllerPID:
         
         # Crear la función de transferencia en Python usando control
         self.system = ctrl.TransferFunction(self.num, self.den)
+        
+def simulate(self, KP, KI, KD):   
+        # Simula el sistema PID con los parámetros dados de KP, KI, y KD.
+        # Crear el controlador PID
+        pid_controller = ctrl.TransferFunction([KD, KP, KI], [1, 0])
+        
+        # Sistema cerrado (feedback)
+        closed_loop_system = ctrl.feedback(pid_controller * self.system)
+        
+        # Simular la respuesta del sistema para una entrada escalón (U=1)
+        time = np.linspace(0, self.tiempo_sim, 1000)
+        time, yout = ctrl.forced_response(closed_loop_system, T=time, U=1)
+        
+        return time, yout
+    
 def main():
     angulo_inicial_grados = 10
     tiempo_sim = 20
