@@ -50,9 +50,7 @@ Para ejecutar este código, asegúrate de tener instaladas las siguientes librer
 - `sympy`
 - `control`
 
-Puedes instalar las dependencias utilizando `pip`:
-
-```bash
+Puedes instalar las dependencias utilizando :
 
 ```
 pip install -r requirements.txt
