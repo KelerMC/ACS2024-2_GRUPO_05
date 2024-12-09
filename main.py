@@ -13,11 +13,13 @@ class Main:
 
     def run(self):
         # 1. Ejecutar la simulación del sistema sin optimización
-        print("Ejecutando simulación con PID ajustado manualmente...")
-        time, angles = self.system.simulate(20, 10, 30, 5.52, 3.66)  # Valores manuales para PID
+        Kp_manual, Ki_manual, Kd_manual = 30, 5.52, 3.66  # Valores manuales para PID
+        print(f"Simulación con PID ajustado manualmente: Kp={Kp_manual}, Ki={Ki_manual}, Kd={Kd_manual}")
+
+        time, angles_manual = self.system.simulate(20, 10, Kp_manual, Ki_manual, Kd_manual)  # Valores manuales para PID
 
         # Visualizar resultados con PID ajustado manualmente
-        plt.plot(time, angles, label="PID Ajustado Manualmente")
+        plt.plot(time, angles_manual, label="PID Ajustado Manualmente")
         plt.title('Respuesta del Sistema con PID Ajustado Manualmente')
         plt.xlabel('Tiempo (s)')
         plt.ylabel('Ángulo (º)')
@@ -32,11 +34,22 @@ class Main:
 
         # 3. Ejecutar la simulación del sistema con los parámetros optimizados
         Kp_opt, Ki_opt, Kd_opt = best_pid
-        time, angles = self.system.simulate(20, 10, Kp_opt, Ki_opt, Kd_opt)
+        time, angles_optimized = self.system.simulate(20, 10, Kp_opt, Ki_opt, Kd_opt)
 
         # Visualizar resultados con PID optimizado
-        plt.plot(time, angles, label=f"PID Optimizado: Kp={Kp_opt}, Ki={Ki_opt}, Kd={Kd_opt}")
+        plt.plot(time, angles_optimized, label=f"PID Optimizado: Kp={Kp_opt}, Ki={Ki_opt}, Kd={Kd_opt}")
         plt.title('Respuesta del Sistema con PID Optimizado')
+        plt.xlabel('Tiempo (s)')
+        plt.ylabel('Ángulo (º)')
+        plt.legend()
+        plt.grid(True)
+        plt.show()
+
+        # 4. Visualizar resultados comparando PID ajustado manualmente y PID optimizado
+        plt.figure(figsize=(10, 6))
+        plt.plot(time, angles_manual, label="PID Ajustado Manualmente (Kp=30, Ki=5.52, Kd=3.66)")
+        plt.plot(time, angles_optimized, label=f"PID Optimizado (Kp={Kp_opt}, Ki={Ki_opt}, Kd={Kd_opt})")
+        plt.title('Comparación de Respuestas del Sistema')
         plt.xlabel('Tiempo (s)')
         plt.ylabel('Ángulo (º)')
         plt.legend()
