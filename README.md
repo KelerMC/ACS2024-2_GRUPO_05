@@ -55,3 +55,5 @@ Puedes instalar las dependencias utilizando :
 ```
 pip install -r requirements.txt
 ```
+## Link de la interfaz interactiva:
+ ( [https://www.canva.com/design/DAGY32gyPno/w0TLAXpDX43sVcCNskPOIg/edit] )
