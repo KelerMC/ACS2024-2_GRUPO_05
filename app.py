@@ -119,7 +119,7 @@ def genetic_algorithm():
     return best
 
 # Streamlit para la interfaz interactiva
-st.title("Simulador de Péndulo Invertido con Control PID")
+st.title("Simulador de Péndulo Invertido con Control PID- Grupo 5")
 
 # Definición de los sliders para los controladores PID
 kp_pendulum = st.slider("KP del péndulo", 0, 100, 40)
