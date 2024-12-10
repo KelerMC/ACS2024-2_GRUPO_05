@@ -39,6 +39,7 @@ class PendulumSystem:
         angles = np.degrees(solution[:, 0])
 
         return t, angles
+        
 
 def plot_responses(system, time_sim, initial_angle, param_name, param_values, base_kp=30, base_ki=5.52, base_kd=3.66):
     plt.figure(figsize=(10, 6))
@@ -63,8 +64,73 @@ def plot_responses(system, time_sim, initial_angle, param_name, param_values, ba
     plt.grid(True)
     plt.show()
 
+#Permite generar un grafico individual segun los parametros indicados
+def plot_simulation(system, time_sim, initial_angle, kp, ki, kd):
+    t, angles = system.simulate(time_sim, np.radians(initial_angle), kp, ki, kd)
+    plt.figure(figsize=(10, 6))
+    plt.plot(t, angles)
+    plt.title(f'Respuesta del sistema con Kp={kp}, Ki={ki}, Kd={kd}')
+    plt.xlabel('Tiempo (s)')
+    plt.ylabel('Ángulo (º)')
+    plt.grid(True)
+    plt.show()
+
 def main():
     # Inicialización
     system = PendulumSystem()
     initial_angle = 10  # grados
     time_sim = 5       # segundos
+
+   # Valores para sintonización
+    kp_values = np.arange(30, 110, 10)
+    ki_values = np.arange(0, 16, 2)
+    kd_values = np.arange(0, 16, 2)
+
+    # Graficar variando KP
+    print("Sintonizando KP...")
+    plot_responses(system, time_sim, initial_angle, 'kp', kp_values)
+
+    # Graficar variando KI
+    print("Sintonizando KI...")
+    plot_responses(system, time_sim, initial_angle, 'ki', ki_values, base_kp=40)
+
+    # Graficar variando KD
+    print("Sintonizando KD...")
+    plot_responses(system, time_sim, initial_angle, 'kd', kd_values, base_kp=40, base_ki=0)
+
+    # Resultados finales con valores optimizados
+    print("Graficando resultados finales...")
+    t, angles = system.simulate(time_sim, np.radians(initial_angle), kp=40, ki=0, kd=4)
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(t, angles)
+    plt.title('Respuesta del sistema con Kp=40 y Kd=4')
+    plt.xlabel('Tiempo (s)')
+    plt.ylabel('Ángulo (º)')
+    plt.grid(True)
+    plt.show()
+
+
+    #Pruebas para variantes de PID
+    #1. P (valores de ki=0 y kd=0)
+    plot_simulation(system, time_sim, initial_angle, kp=100, ki=0, kd=0)
+    plot_simulation(system, time_sim, initial_angle, kp=30, ki=0, kd=0)
+    plot_simulation(system, time_sim, initial_angle, kp=0.1, ki=0, kd=0)
+
+    #2.PI (valores kd=0)
+    plot_simulation(system, time_sim, initial_angle, kp=1000, ki=1000, kd=0)
+    plot_simulation(system, time_sim, initial_angle, kp=1000, ki=10, kd=0)
+    plot_simulation(system, time_sim, initial_angle, kp=1000, ki=0.5, kd=0)
+
+    #3.PD (valores ki = 0)
+    plot_simulation(system, time_sim, initial_angle, kp=100, ki=0, kd=1)
+    plot_simulation(system, time_sim, initial_angle, kp=100, ki=0, kd=5)
+    plot_simulation(system, time_sim, initial_angle, kp=100, ki=0, kd=50)
+
+    #4 Prueba PID
+    plot_simulation(system, time_sim, initial_angle, kp=100, ki=0.2, kd=6)
+    plot_simulation(system, time_sim, initial_angle, kp=100, ki=1, kd=6)
+    plot_simulation(system, time_sim, initial_angle, kp=100, ki=1000, kd=6)
+
+if __name__ == "__main__":
+    main()
