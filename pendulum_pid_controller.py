@@ -110,5 +110,27 @@ def main():
     plt.grid(True)
     plt.show()
 
+
+    #Pruebas para variantes de PID
+    #1. P (valores de ki=0 y kd=0)
+    plot_simulation(system, time_sim, initial_angle, kp=100, ki=0, kd=0)
+    plot_simulation(system, time_sim, initial_angle, kp=30, ki=0, kd=0)
+    plot_simulation(system, time_sim, initial_angle, kp=0.1, ki=0, kd=0)
+
+    #2.PI (valores kd=0)
+    plot_simulation(system, time_sim, initial_angle, kp=1000, ki=1000, kd=0)
+    plot_simulation(system, time_sim, initial_angle, kp=1000, ki=10, kd=0)
+    plot_simulation(system, time_sim, initial_angle, kp=1000, ki=0.5, kd=0)
+
+    #3.PD (valores ki = 0)
+    plot_simulation(system, time_sim, initial_angle, kp=100, ki=0, kd=1)
+    plot_simulation(system, time_sim, initial_angle, kp=100, ki=0, kd=5)
+    plot_simulation(system, time_sim, initial_angle, kp=100, ki=0, kd=50)
+
+    #4 Prueba PID
+    plot_simulation(system, time_sim, initial_angle, kp=100, ki=0.2, kd=6)
+    plot_simulation(system, time_sim, initial_angle, kp=100, ki=1, kd=6)
+    plot_simulation(system, time_sim, initial_angle, kp=100, ki=1000, kd=6)
+
 if __name__ == "__main__":
     main()
