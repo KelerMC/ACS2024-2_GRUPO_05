@@ -61,3 +61,32 @@ class CartPoleSystem:
         theta_ddot = acc[1][0]
 
         return [x_dot, theta_dot, x_ddot, theta_ddot]
+
+
+def evaluate(individual):
+    # Configurar sistema con las ganancias del individuo
+    system = CartPoleSystem(individual)
+
+    # Parámetros de simulación
+    t_span = 10.0  # Reducido para acelerar la evaluación
+    initial_state = [0.0, np.radians(30.0), 0.0, 0.0]
+    t = np.linspace(0, t_span, int(t_span / 0.01))
+
+    try:
+        # Simular sistema
+        solution = odeint(system.system_dynamics, initial_state, t)
+
+        # Calcular error cuadrático
+        x_error = np.sum((solution[:, 0] - system.x_ref) ** 2)
+        theta_error = np.sum((solution[:, 1] - system.theta_ref) ** 2)
+
+        # Penalizar oscilaciones excesivas
+        x_oscillation = np.sum(np.diff(solution[:, 0]) ** 2)
+        theta_oscillation = np.sum(np.diff(solution[:, 1]) ** 2)
+
+        # Función de fitness (menor es mejor)
+        fitness = x_error + 10 * theta_error + 0.1 * x_oscillation + 0.1 * theta_oscillation
+
+        return (fitness,)
+    except:
+        return (float('inf'),)
