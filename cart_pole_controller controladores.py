@@ -128,17 +128,17 @@ def main():
     plot_pendulum_cart_response(pendulum_pid, cart_pid, t_span, initial_state)
 """
     #Pruebas de variantes de controlador
-    #P
+    #P(ki, kd = 0)
     #plot_pendulum_cart_response({'kp': 10, 'ki': 0, 'kd': 0, 'integral_error': 0}, cart_pid, t_span, initial_state)
     #plot_pendulum_cart_response({'kp': 50, 'ki': 0, 'kd': 0, 'integral_error': 0}, cart_pid, t_span, initial_state)
     #plot_pendulum_cart_response({'kp': 100, 'ki': 0, 'kd': 0, 'integral_error': 0}, cart_pid, t_span, initial_state)
 
-    #PI
+    #PI(kd = 0)
     #plot_pendulum_cart_response({'kp': 50, 'ki': 0.1, 'kd': 0, 'integral_error': 0}, cart_pid, t_span, initial_state)
     #plot_pendulum_cart_response({'kp': 50, 'ki': 1, 'kd': 0, 'integral_error': 0}, cart_pid, t_span, initial_state)
     #plot_pendulum_cart_response({'kp': 50, 'ki': 10, 'kd': 0, 'integral_error': 0}, cart_pid, t_span, initial_state)
     
-    #PD
+    #PD (ki = 0)
     plot_pendulum_cart_response({'kp': 100, 'ki': 0, 'kd': 1, 'integral_error': 0}, cart_pid, t_span, initial_state)
     plot_pendulum_cart_response({'kp': 400, 'ki': 0, 'kd': 10, 'integral_error': 0}, cart_pid, t_span, initial_state)
     plot_pendulum_cart_response({'kp': 500, 'ki': 0, 'kd': 50, 'integral_error': 0}, cart_pid, t_span, initial_state)
