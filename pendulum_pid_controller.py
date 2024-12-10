@@ -39,6 +39,7 @@ class PendulumSystem:
         angles = np.degrees(solution[:, 0])
 
         return t, angles
+        
 
 def plot_responses(system, time_sim, initial_angle, param_name, param_values, base_kp=30, base_ki=5.52, base_kd=3.66):
     plt.figure(figsize=(10, 6))
@@ -60,6 +61,17 @@ def plot_responses(system, time_sim, initial_angle, param_name, param_values, ba
     plt.xlabel('Tiempo (s)')
     plt.ylabel('Ángulo (º)')
     plt.legend()
+    plt.grid(True)
+    plt.show()
+
+#Permite generar un grafico individual segun los parametros indicados
+def plot_simulation(system, time_sim, initial_angle, kp, ki, kd):
+    t, angles = system.simulate(time_sim, np.radians(initial_angle), kp, ki, kd)
+    plt.figure(figsize=(10, 6))
+    plt.plot(t, angles)
+    plt.title(f'Respuesta del sistema con Kp={kp}, Ki={ki}, Kd={kd}')
+    plt.xlabel('Tiempo (s)')
+    plt.ylabel('Ángulo (º)')
     plt.grid(True)
     plt.show()
 
