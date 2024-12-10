@@ -68,3 +68,8 @@ class CartPoleSystem:
         theta_ddot = acc[1][0]
 
         return [x_dot, theta_dot, x_ddot, theta_ddot]
+
+    def simulate(self, t_span, initial_state):
+        t = np.linspace(0, t_span, int(t_span / 0.01))
+        solution = odeint(self.system_dynamics, initial_state, t)
+        return t, solution
