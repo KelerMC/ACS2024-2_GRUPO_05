@@ -109,3 +109,20 @@ class CartPoleSystem:
         
         plt.tight_layout()
         plt.show()
+
+def main():
+    # Create system
+    system = CartPoleSystem()
+    
+    # Simulation parameters
+    t_span = 40.0  # seconds
+    initial_state = [0.0, np.radians(30.0), 0.0, 0.0]  # [x, theta, x_dot, theta_dot]
+    
+    # Run simulation
+    t, solution = system.simulate(t_span, initial_state)
+    
+    # Plot results
+    system.plot_results(t, solution)
+
+if __name__ == "__main__":
+    main()
