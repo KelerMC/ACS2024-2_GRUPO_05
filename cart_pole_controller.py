@@ -73,3 +73,39 @@ class CartPoleSystem:
         t = np.linspace(0, t_span, int(t_span / 0.01))
         solution = odeint(self.system_dynamics, initial_state, t)
         return t, solution
+
+    def plot_results(self, t, solution):
+        plt.figure(figsize=(12, 10))
+        
+        # Cart position
+        plt.subplot(3, 1, 1)
+        plt.plot(t, solution[:, 0], 'b-', label='Cart Position')
+        plt.plot(t, np.ones_like(t) * self.x_ref, 'r--', label='Reference')
+        plt.grid(True)
+        plt.legend()
+        plt.ylabel('Position (m)')
+        plt.title('Cart-Pole System Response')
+        
+        # Pendulum angle
+        plt.subplot(3, 1, 2)
+        plt.plot(t, np.degrees(solution[:, 1]), 'g-', label='Pendulum Angle')
+        plt.plot(t, np.degrees(np.ones_like(t) * self.theta_ref), 'r--', label='Reference')
+        plt.grid(True)
+        plt.legend()
+        plt.ylabel('Angle (degrees)')
+        
+        # Control signals
+        plt.subplot(3, 1, 3)
+        cart_control = (self.cart_pid['kp'] * (solution[:, 0] - self.x_ref) + 
+                       self.cart_pid['kd'] * solution[:, 2])
+        pendulum_control = (self.pendulum_pid['kp'] * solution[:, 1] + 
+                          self.pendulum_pid['kd'] * solution[:, 3])
+        plt.plot(t, cart_control, 'b-', label='Cart Control')
+        plt.plot(t, pendulum_control, 'g-', label='Pendulum Control')
+        plt.grid(True)
+        plt.legend()
+        plt.xlabel('Time (s)')
+        plt.ylabel('Force (N)')
+        
+        plt.tight_layout()
+        plt.show()
