@@ -90,3 +90,45 @@ def evaluate(individual):
         return (fitness,)
     except:
         return (float('inf'),)
+        
+def main():
+    # Configuración del algoritmo genético
+    creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
+    creator.create("Individual", array.array, typecode='d', fitness=creator.FitnessMin)
+
+    toolbox = base.Toolbox()
+    
+    # Paralelización
+    pool = multiprocessing.Pool()
+    toolbox.register("map", pool.map)
+    
+    # Genes: [pendulum_kp, pendulum_kd, cart_kp, cart_kd]
+    toolbox.register("attr_float", random.uniform, 0, 100)
+    toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_float, n=4)
+    toolbox.register("population", tools.initRepeat, list, toolbox.individual)
+    
+    toolbox.register("evaluate", evaluate)
+    toolbox.register("mate", tools.cxTwoPoint)
+    toolbox.register("mutate", tools.mutGaussian, mu=0, sigma=10, indpb=0.2)
+    toolbox.register("select", tools.selTournament, tournsize=3)
+    
+    # Algoritmo
+    population = toolbox.population(n=50)
+    ngen = 20
+    
+    result, logbook = algorithms.eaSimple(population, toolbox, 
+                                        cxpb=0.7, mutpb=0.3, 
+                                        ngen=ngen, verbose=True)
+    
+    pool.close()
+    
+    # Obtener mejor individuo
+    best = tools.selBest(result, k=1)[0]
+    print("\nMejores ganancias encontradas:")
+    print(f"Péndulo: kp={best[0]:.2f}, kd={best[1]:.2f}")
+    print(f"Carro: kp={best[2]:.2f}, kd={best[3]:.2f}")
+    
+    return best
+
+if __name__ == "__main__":
+    best_gains = main()
